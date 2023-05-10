@@ -1,0 +1,29 @@
+.navbar {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 1rem;
+  }
+  
+  .nav-link {
+    font-size: 20px;
+    padding: 0;
+  }
+  
+  .dropdown-item {
+    padding:0rem 0.75rem;
+  }
+  
+  .btn {
+    padding: 0rem 0.75rem;
+    font-size: 20px;
+  }
+  
+  .form-control {
+    padding: 0.2rem 0.75rem;
+    font-size: 20px;
+  }
