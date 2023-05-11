@@ -4,23 +4,22 @@ import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import Searchbar from './Searchbar';
 import Card from './Card';
-import GoogleMaps from './GoogleMaps';
 import MapView from './MapView';
-
 
 const vehicleMode = { "RUNNING": 0, "STOPPED": 0, "NOT WORKING": 0 }
 
 
 const DashboardView = () => {
     const url = "http://gtrac.in:8080/trackingdashboard/getListVehicles?token=53096";
-
+const [a1,setA1]=useState(0)
     const [data, setData] = useState([]);
     const [listType, setListType] = useState("RUNNING")
     const [listData, setListData] = useState([])
     const [mapData, setMapData] = useState([])
     const [single, setSingle] = useState([])
-    const [a,setA]=useState(false)
-
+    const [a, setA] = useState(false)
+    var widthOnA = a ? ('100%') : ('0%')
+    var zoomControl = a ? 10 : 5
     const getData = () => {
         axios.get(url)
             .then((res) => {
@@ -41,8 +40,20 @@ const DashboardView = () => {
     };
 
     const handleMapClick = (item) => {
+        if (single.length === 0) {
+            setA(!a)
+            setSingle(item)
+            
+        }
+        else if (a && Object.values(single).length === 8)
+            if (single.vId === item.vId) {
+
+                setA(!a)
+
+                setSingle([])
+                return
+            }
         setSingle(item)
-        setA(!a)
 
     }
     useEffect(() => {
@@ -52,9 +63,11 @@ const DashboardView = () => {
     }, []);
 
     useEffect(() => {
-
-        // console.log('useEffect ran');
-        // console.log(listData,"BEFORE")
+        if (Object.values(single).length === 8) {
+            setA(!a)
+            setSingle([])
+            
+        }
         setListData(Object.values(data?.filter((item) => {
             if (listType === "RUNNING" || listType === "STOPPED")
                 return item.gpsDtl.mode === listType
@@ -67,42 +80,36 @@ const DashboardView = () => {
             else
                 return item
         })))
-        // setTimeout(() => {
-        //     console.log(listData,"AFTER")
-        //   }, "1000");
+
 
 
     }, [listType]);
 
     useEffect(() => {
-        if (!a && Object.values(single).length === 8 && single.vId===mapData.vId) {
+        if (a && Object.values(single).length === 8 ){
+            setMapData(single)
+        } else if (Object.values(single).length === 0) {
             setMapData(Object.values(data?.filter((item) => {
                 if (listType === "RUNNING" || listType === "STOPPED")
                     return item.gpsDtl.mode === listType
                 else
                     return item
             })))
-
         } else {
-
             setMapData(single)
         }
+
     }, [single, a])
-
-    // console.log(vehicleMode)
-
-
-    // console.log(data, typeof (data));
 
     return (
         <>
             <Navbar key={Math.random()} />
             <Sidebar key={Math.random()} />
-            <Searchbar key={Math.random()} vehicleMode={vehicleMode} listType={listType} setListType={setListType} />
+            <Searchbar key={Math.random()} vehicleMode={vehicleMode} listType={listType} setListType={setListType} a1={a1} setA1={setA1} />
 
             <div key={Math.random().toString()} style={{ display: 'flex', maxHeight: '70vh' }}>
-                <div key={Math.random().toString()} style={{ justifyContent: 'center', alignItems: 'center', fontSize: '10px', marginLeft: '80px' }}>
-                    <div key={Math.random().toString()} style={{ maxHeight: '90vh', maxWidth: '27rem', overflowY: 'scroll' }}>
+                <div key={Math.random().toString()} style={{ justifyContent: 'center', alignItems: 'center', width: '40%', fontSize: '10px', marginLeft: '80px' }}>
+                    <div key={Math.random().toString()} style={{ maxHeight: '90vh', overflowY: 'scroll' }}>
                         {listData?.map((item) => (
                             <div key={Math.random().toString()} onClick={() => { handleMapClick(item) }}>
                                 <Card key={(Math.random() * 10).toString()} data={item} />
@@ -111,11 +118,18 @@ const DashboardView = () => {
                         ))}
                     </div>
                 </div>
-                <div style={{ width: '100%', height: '90vh', lineHeight: '0' }}>
+                <div style={{ display: 'flex', height: '90vh', width: '60%' }}>
+                    <div key={(Math.random() * 10).toString()} style={{ background: "#fff", width: widthOnA, height: '90vh', lineHeight: '0' }}>
+                        {a ? <Card key={(Math.random() * 10).toString()} data={single} /> : <></>}
 
-                    {/* <GoogleMaps key={Math.random()} /> */}
-                    <MapView data={mapData} />
+                    </div>
+
+
+                    <div key={(Math.random() * 10).toString()} style={{ width: '100%', height: '90vh', lineHeight: '0' }}>
+                        <MapView key={(Math.random() * 10).toString()} data={mapData} zoomControl={zoomControl} />
+                    </div>
                 </div>
+
 
             </div>
         </>

@@ -73,3 +73,8 @@
   label, button {
     margin-top: 0rem;
   }
+
+  .underline {
+    color:   #2da552 !important;
+    border-bottom: 2px solid #2da552;
+  }

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import '../styling/LoginView.module.css'
+import '../styling/LoginView.css'
 
 const LoginView = () => {
     const userRef = useRef();

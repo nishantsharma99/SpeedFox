@@ -7,7 +7,6 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-import GoogleMaps from './components/GoogleMaps';
 
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
           <Route path="/" element={<LoginView />} />
           <Route path="/dashboard" element={<DashboardView />} />
           <Route path="/card" element={<Card />} />
-          <Route path="/map" element={<GoogleMaps />} />
         </Routes>
       </BrowserRouter>
 

@@ -4,9 +4,9 @@ const Card = (props) => {
     // console.log(props);
     const colorOfMode = (props.data.gpsDtl.mode === 'RUNNING' ? '#d6fbe0':'#fbdbd6')
     const colorOfIcon = (props.data.gpsDtl.mode === 'RUNNING' ? '#0a8b20':'#f53f2b')
-    console.log(colorOfMode)
+    // console.log(colorOfMode)
     return (
-        <div className="card mb-1" style={{ width: '25rem', maxHeight: '15rem', fontWeight: '400', margin:'0' }}>
+        <div className="card mb-1" style={{ width: '100%', maxHeight: '15rem', fontWeight: '400', margin:'0' }}>
             <div className="card-header bg-transparent" style={{ borderBottom: '0', paddingBottom : '0.2rem' }}>
                 <div className="d-flex justify-content-between">
                     <h5 className="card-title m-0" style={{fontWeight: '600'}}>
